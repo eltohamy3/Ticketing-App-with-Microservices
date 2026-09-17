@@ -17,11 +17,11 @@ app.post('/api/users/signin' , (req , res, next)=>{
 app.post('/api/users/out' , (req , res, next)=>{
   res.send("user sign out correctly")
 })
-app.get('/api/users/curentuser' , (req , res, next)=>{
+app.get('/api/users/currentuser' , (req , res, next)=>{
   res.send("email : eltoo@gmail.com")
 })
 
 
 app.listen(3000,()=>{
-  console.log("listening on port 3000.")
+  console.log("listening on port 3000..")
 })
