@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: tiketing.com
+  - host: ticketing.com
     http:
       paths:
       - pathType: ImplementationSpecific
