@@ -1,7 +1,12 @@
 import { CommonErrorStructure } from "./commenErrorStructure";
 
+export abstract class CustomError extends Error {
+  abstract statusCode: number;
+  constructor(message: string){
+    super(message);
+    Object.setPrototypeOf(this , CustomError.prototype);
 
-export interface CustomError{
-serializeErrors():CommonErrorStructure; 
-statusCode:number ;
+  }
+  abstract serializeErrors(): CommonErrorStructure;
+
 }
