@@ -1,5 +1,5 @@
 
-
+import { CommonErrorStructure } from "./commenErrorStructure";
 export class DatabaseConnectionError extends Error{
 
   reason = 'Error Connection to Database';
@@ -7,4 +7,5 @@ export class DatabaseConnectionError extends Error{
     super();
     Object.setPrototypeOf(this ,DatabaseConnectionError.prototype);
   }
+  
 }
