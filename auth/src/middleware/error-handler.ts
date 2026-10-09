@@ -9,20 +9,11 @@ export const errorHandeler = (
   res: Response,
   next: NextFunction,
 ) => {
-  if (err instanceof RequestValidationError) {
-    console.log("handling this error as a request validation error");
-    return res.status(400).send({
-      errors: formattedErrors,
-    });
-  } else if (err instanceof DatabaseConnectionError) {
-    console.log("handling this error as a request DatabaseConnectionError");
-    return res.status(500).send({
-      errors: [
-        {
-          message: err.reason,
-        },
-      ],
-    });
+  if (err instanceof RequestValidationError ) {
+    return res.status(err.statusCode).send(err.serializeErrors());
+  } 
+   if (err instanceof DatabaseConnectionError) {
+    return res.status(err.statusCode).send(err.serializeErrors());
   }
 
   console.log("Something went wrong ", err);

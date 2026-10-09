@@ -1,11 +1,20 @@
 
 import { CommonErrorStructure } from "./commenErrorStructure";
-export class DatabaseConnectionError extends Error{
+import { CustomError } from "./customError";
+export class DatabaseConnectionError extends Error  implements CustomError{
+  statusCode = 500 ;
 
-  reason = 'Error Connection to Database';
+ private reason = 'Error Connection to Database';
   constructor(){
     super();
     Object.setPrototypeOf(this ,DatabaseConnectionError.prototype);
+  }
+  serializeErrors():CommonErrorStructure {
+    return {
+      errors : [{
+        message : this.reason
+      }]
+    }
   }
   
 }
