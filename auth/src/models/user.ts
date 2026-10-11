@@ -1,5 +1,6 @@
-import mongoose , {Document ,Schema ,Model} from "mongoose";
+import mongoose , {Document ,Schema ,Model, SaveOptions} from "mongoose";
 
+import { Password } from "../services/password";
 
 // An interface that describes the properties that are requried to create a new User
 
@@ -36,7 +37,7 @@ const userSchema = new Schema({
   password : {
     type : String , 
     required : true , 
-    select :false 
+    // select :false 
   }  ,
   isActive:{
     type : Boolean , 
@@ -45,17 +46,25 @@ const userSchema = new Schema({
 } , {
   timestamps : true // adds createdAt and UpdatedAt
 });
-userSchema.methods.toJSON = function () {
-  const user = this.toObject();
-  delete user.password;
-  return user;
-};
+// userSchema.methods.toJSON = function () {
+//   const user = this.toObject();
+//   delete user.password;
+//   return user;
+// };
 
 userSchema.statics.build = (attrs : UserAttrs)=>{
   return new User(attrs);
 }
-
-
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) {
+    return;
+  }
+  try {
+    this.password = await Password.toHash(this.password);
+  } catch (error) {
+    throw error;
+  }
+});
 const User = mongoose.model<UserDoc,UserModel>("User" , userSchema);
 
 export {User };
