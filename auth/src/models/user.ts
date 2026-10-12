@@ -37,20 +37,25 @@ const userSchema = new Schema({
   password : {
     type : String , 
     required : true , 
-    // select :false 
+    select :false 
   }  ,
   isActive:{
     type : Boolean , 
     default : true
   }
 } , {
-  timestamps : true // adds createdAt and UpdatedAt
+  timestamps : true, // adds createdAt and UpdatedAt , 
+  toJSON : {
+    transform (doc , ret){
+      // remap the _id to id
+      ret.id = ret._id ; 
+      delete ret._id; 
+      delete ret.password ; 
+      delete ret.__v; 
+      return ret ;
+    }
+  }
 });
-// userSchema.methods.toJSON = function () {
-//   const user = this.toObject();
-//   delete user.password;
-//   return user;
-// };
 
 userSchema.statics.build = (attrs : UserAttrs)=>{
   return new User(attrs);
