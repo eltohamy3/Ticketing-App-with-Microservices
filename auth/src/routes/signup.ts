@@ -5,7 +5,7 @@ import { DatabaseConnectionError } from "../errors/database-connection-error";
 import { User } from "../models/user";
 import { BadRequestError } from "../errors/bad-request-error";
 import { env } from "../config/env";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 const router = express.Router();
 
 router.post(
@@ -29,26 +29,28 @@ router.post(
     if (existingUser) {
       console.log("Email in use");
       // return res.send('Email is currently exist');
-        throw new BadRequestError('Email is currently exist');
+      throw new BadRequestError("Email is currently exist");
     }
 
     // create a new User
-    const user = User.build({email , password });
+    const user = User.build({ email, password });
     await user.save();
 
-    // Generate JWT 
-    const userJwt = jwt.sign({
-      id : user._id , 
-      email : user.email 
-    } , env.jwtSecret , {
-      expiresIn : env.jwtExpires
-    })
+    // Generate JWT
+    const userJwt = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+      },
+      env.jwtKey 
+     );
 
     // Store it on session Object
+    req.session = {
+      jwt : userJwt
+    }
 
-
-    res.status(201).send(user)
-
+    res.status(201).send(user);
   },
 );
 
