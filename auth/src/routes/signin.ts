@@ -25,6 +25,7 @@ router.post(
     if (!existingUser || ! await Password.compare(password , existingUser.password)){
       throw new BadRequestError("Invalid email or password ");
     }
+    
     // ok User is Logged in 
     // Generate JWT and send it 
     generateAndSendJwt(req , res , existingUser , 200);
