@@ -20,9 +20,9 @@ router.post(
   validateRequest
   ,
   async (req: Request, res: Response) => {
-    const {email, password} = req.body ;
+    const {email, password } = req.body ;
     const existingUser = await User.findOne({email}).select("+password");
-    if (!existingUser || ! Password.compare(password , existingUser.password)){
+    if (!existingUser || ! await Password.compare(password , existingUser.password)){
       throw new BadRequestError("Invalid email or password ");
     }
     // ok User is Logged in 
