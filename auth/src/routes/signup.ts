@@ -5,6 +5,7 @@ import { BadRequestError } from "../errors/bad-request-error";
 import { env } from "../config/env";
 import jwt from "jsonwebtoken";
 import { validateRequest } from "../middleware/validate-request";
+import { generateAndSendJwt } from "../middleware/genrateAndSendJwt";
 const router = express.Router();
 
 router.post(
@@ -33,21 +34,8 @@ router.post(
     const user = User.build({ email, password });
     await user.save();
 
-    // Generate JWT
-    const userJwt = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-      },
-      env.jwtKey 
-     );
-
-    // Store it on session Object
-    req.session = {
-      jwt : userJwt
-    }
-
-    res.status(201).send(user);
+    // Generate JWT and send it 
+    generateAndSendJwt(req , res , user ,201);
   },
 );
 
