@@ -23,7 +23,7 @@ app.use(cookieSession({
   name : 'session' , 
   maxAge : 15 * 60 *60*1000 , 
   signed :false , 
-  secure : true , 
+  secure : env.nodeEnv === "production",
   httpOnly : true
 
 }))
