@@ -3,8 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "start": "ts-node-dev --respawn --transpile-only src/index.ts" , 
+    "test" : "jest --watchALl --no-cache"
   },
+  "jest" :{
+    "preset" : "ts-jest" , 
+    "testEnvironment" : "node", 
+    "setupFileAfterEnv" : [
+      "./src/test/setup.ts"
+    ]
+
+
+  } ,
   "dependencies": {
     "@types/cookie-session": "^2.0.49",
     "@types/express": "^5.0.6",
