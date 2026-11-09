@@ -11,13 +11,8 @@ export interface UserAttrs   {
   isActive? : boolean ; 
 }
 
-// an interface that describe the User model has 
-interface UserModel extends mongoose.Model<UserDoc>{
-  build (attrs : UserAttrs): UserDoc; 
- }
 
  // an interface that describes the properties that a User Document has
-
 export interface  UserDoc extends Document{
   email : string ; 
   password : string; 
@@ -26,6 +21,10 @@ export interface  UserDoc extends Document{
   updatedAt : Date ;
 }
 
+// an interface that describe the User model has 
+interface UserModel extends mongoose.Model<UserDoc>{
+  build (attrs : UserAttrs): UserDoc; 
+ }
 
 
 const userSchema = new Schema({
@@ -46,13 +45,13 @@ const userSchema = new Schema({
 } , {
   timestamps : true, // adds createdAt and UpdatedAt , 
   toJSON : {
-    transform (doc , ret){
-      // remap the _id to id
-      ret.id = ret._id ; 
-      delete ret._id; 
-      delete ret.password ; 
-      delete ret.__v; 
-      return ret ;
+    transform (doc, ret) {
+      const user = ret as any;
+      user.id = user._id;
+      delete user._id;
+      delete user.password;
+      delete user.__v;
+      return user;
     }
   }
 });

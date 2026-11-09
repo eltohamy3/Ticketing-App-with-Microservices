@@ -8,7 +8,7 @@ WORKDIR /usr/app
 
 # copy the package.json and install others
 COPY package.json .
-RUN npm install 
+RUN npm install --omit=dev
 
 # copy the rest of files
 COPY . .
