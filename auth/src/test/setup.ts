@@ -21,8 +21,6 @@ global.signup= async()=>{
 }
 jest.setTimeout(60000);
 
-process.env.JWT_KEY = "test-only-jwt-key";
-
 let mongo: MongoMemoryServer | undefined;
 
 beforeAll(async () => {
